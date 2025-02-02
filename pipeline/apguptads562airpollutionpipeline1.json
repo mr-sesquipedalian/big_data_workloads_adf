@@ -47,7 +47,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "apguptads562airpollutionJson1",
+						"referenceName": "apguptads562airpollutionAzureBlobsinkJson1",
 						"type": "DatasetReference"
 					}
 				]
