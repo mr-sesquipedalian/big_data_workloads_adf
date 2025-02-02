@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'apguptads562airpollutionAzureBlobStorage1'"
 		},
+		"apguptads562weatherpredictionAzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'apguptads562weatherpredictionAzureBlobStorage1'"
+		},
 		"GitHub Apgupta_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "mr-sesquipedalian"
@@ -26,6 +30,10 @@
 		"apguptads562airpollutionRestService1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"apguptads562weatherpredictionRestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/"
 		}
 	},
 	"variables": {
@@ -87,6 +95,34 @@
 				"type": "RestService",
 				"typeProperties": {
 					"url": "[parameters('apguptads562airpollutionRestService1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/apguptads562weatherpredictionAzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('apguptads562weatherpredictionAzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/apguptads562weatherpredictionRestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('apguptads562weatherpredictionRestService1_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -162,6 +198,72 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/apguptads562weatherpredictionRestResource1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "apguptads562weatherpredictionRestService1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"lat": {
+						"type": "float",
+						"defaultValue": 42.36
+					},
+					"lon": {
+						"type": "float",
+						"defaultValue": -71.0589
+					},
+					"appid": {
+						"type": "string",
+						"defaultValue": "31f0db86ba5a3b47ead3761561013e49"
+					},
+					"start": {
+						"type": "int"
+					},
+					"end": {
+						"type": "int"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=hour&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/apguptads562weatherpredictionRestService1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/apguptads562weatherpredictionsinkJson1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "apguptads562weatherpredictionAzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "apguptads562weatherpredictioncontainerblob1"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/apguptads562weatherpredictionAzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/apguptads562airpollutionpipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -227,6 +329,110 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/apguptads562airpollutionRestResource1')]",
 				"[concat(variables('factoryId'), '/datasets/apguptads562airpollutionAzureBlobsinkJson1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/apguptads562hisoricalweatherdatapipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "HistoricalWeatherIteration",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@range(0,pipeline().parameters.weeksAgo)",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "apguptads562HistoricalWeathercopydata1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "apguptads562weatherpredictionRestResource1",
+											"type": "DatasetReference",
+											"parameters": {
+												"lat": 42.36,
+												"lon": -71.0589,
+												"appid": "31f0db86ba5a3b47ead3761561013e49",
+												"start": {
+													"value": "@{add(sub(1738458147,31556926),mul(add(0,item()),86400))}",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@{add(sub(1738458147,31556926),mul(add(0,add(item(),1)),86400))}\n",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "apguptads562weatherpredictionsinkJson1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"weeksAgo": {
+						"type": "Int",
+						"defaultValue": 52
+					}
+				},
+				"variables": {
+					"testvariable1": {
+						"type": "Integer"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/apguptads562weatherpredictionRestResource1')]",
+				"[concat(variables('factoryId'), '/datasets/apguptads562weatherpredictionsinkJson1')]"
 			]
 		}
 	]

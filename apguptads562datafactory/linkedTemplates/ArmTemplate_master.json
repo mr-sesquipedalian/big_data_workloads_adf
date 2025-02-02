@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'apguptads562airpollutionAzureBlobStorage1'"
 		},
+		"apguptads562weatherpredictionAzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'apguptads562weatherpredictionAzureBlobStorage1'"
+		},
 		"GitHub Apgupta_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "mr-sesquipedalian"
@@ -26,6 +30,10 @@
 		"apguptads562airpollutionRestService1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"apguptads562weatherpredictionRestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -60,6 +68,9 @@
 					"apguptads562airpollutionAzureBlobStorage1_connectionString": {
 						"value": "[parameters('apguptads562airpollutionAzureBlobStorage1_connectionString')]"
 					},
+					"apguptads562weatherpredictionAzureBlobStorage1_connectionString": {
+						"value": "[parameters('apguptads562weatherpredictionAzureBlobStorage1_connectionString')]"
+					},
 					"GitHub Apgupta_properties_typeProperties_username": {
 						"value": "[parameters('GitHub Apgupta_properties_typeProperties_username')]"
 					},
@@ -68,6 +79,9 @@
 					},
 					"apguptads562airpollutionRestService1_properties_typeProperties_url": {
 						"value": "[parameters('apguptads562airpollutionRestService1_properties_typeProperties_url')]"
+					},
+					"apguptads562weatherpredictionRestService1_properties_typeProperties_url": {
+						"value": "[parameters('apguptads562weatherpredictionRestService1_properties_typeProperties_url')]"
 					}
 				}
 			},

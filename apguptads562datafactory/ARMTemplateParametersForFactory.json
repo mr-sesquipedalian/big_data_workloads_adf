@@ -11,6 +11,9 @@
 		"apguptads562airpollutionAzureBlobStorage1_connectionString": {
 			"value": ""
 		},
+		"apguptads562weatherpredictionAzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"GitHub Apgupta_properties_typeProperties_username": {
 			"value": "mr-sesquipedalian"
 		},
@@ -19,6 +22,9 @@
 		},
 		"apguptads562airpollutionRestService1_properties_typeProperties_url": {
 			"value": "http://api.openweathermap.org/"
+		},
+		"apguptads562weatherpredictionRestService1_properties_typeProperties_url": {
+			"value": "https://history.openweathermap.org/"
 		}
 	}
 }
