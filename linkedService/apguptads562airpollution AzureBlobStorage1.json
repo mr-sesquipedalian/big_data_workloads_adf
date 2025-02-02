@@ -1,0 +1,11 @@
+{
+	"name": "apguptads562airpollution AzureBlobStorage1",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"containerUri": "https://apguptads562blob1.blob.core.windows.net/apguptads562containerblob1",
+			"authenticationType": "Anonymous"
+		}
+	}
+}
