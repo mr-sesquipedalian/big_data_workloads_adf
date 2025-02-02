@@ -1,0 +1,9 @@
+{
+	"name": "apguptads562datafactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8d089189-0d26-4170-bdd9-d50fca708685",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}
