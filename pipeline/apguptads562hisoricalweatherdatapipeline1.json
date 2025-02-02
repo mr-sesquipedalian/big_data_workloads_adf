@@ -57,11 +57,11 @@
 										"lon": -71.0589,
 										"appid": "31f0db86ba5a3b47ead3761561013e49",
 										"start": {
-											"value": "@{add(sub(1738458147,31556926),mul(add(0,item()),86400))}",
+											"value": "@{add(sub(1738458147, 31556926),mul(item(),518400))}",
 											"type": "Expression"
 										},
 										"end": {
-											"value": "@{add(sub(1738458147,31556926),mul(add(0,add(item(),1)),86400))}\n",
+											"value": "@{add(add(sub(1738458147, 31556926),mul(item(),518400)), 518400)}",
 											"type": "Expression"
 										}
 									}
