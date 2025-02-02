@@ -1,0 +1,18 @@
+{
+	"name": "apguptads562weatherpredictionsinkJson1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "apguptads562weatherpredictionAzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "apguptads562weatherpredictioncontainerblob1"
+			}
+		},
+		"schema": {}
+	}
+}

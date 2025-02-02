@@ -36,11 +36,40 @@
 										"supportRFC5988": "true"
 									}
 								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings",
+										"copyBehavior": "FlattenHierarchy"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "apguptads562weatherpredictionRestResource1",
+									"type": "DatasetReference",
+									"parameters": {
+										"lat": 42.36,
+										"lon": -71.0589,
+										"appid": "31f0db86ba5a3b47ead3761561013e49",
+										"start": {
+											"value": "div(ticks(addDays(toTimestamp(div(sub(utcNow(), 31556926), 1000)), mul(item(), 7))), 10000000)",
+											"type": "Expression"
+										},
+										"end": {
+											"value": "div(ticks(addDays(toTimestamp(div(sub(utcNow(), 31556926), 1000)), add(mul(item(), 7), 6))), 10000000)\n",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "apguptads562weatherpredictionsinkJson1",
 									"type": "DatasetReference"
 								}
 							]
@@ -49,7 +78,7 @@
 				}
 			},
 			{
-				"name": "apguptads562weatherforecastForEach1",
+				"name": "apguptads562weatherpredictionForeach1",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -58,41 +87,19 @@
 						"value": "@range(0,52)",
 						"type": "Expression"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "apguptads562hisoricalweatherCopydata1",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "RestSource",
-									"httpRequestTimeout": "00:01:40",
-									"requestInterval": "00.00:00:00.010",
-									"requestMethod": "GET",
-									"paginationRules": {
-										"supportRFC5988": "true"
-									}
-								},
-								"enableStaging": false
-							}
-						}
-					]
+					"isSequential": true
 				}
 			}
 		],
 		"parameters": {
 			"weeksAgo": {
 				"type": "Int",
-				"defaultValue": 51
+				"defaultValue": 52
+			}
+		},
+		"variables": {
+			"testvariable1": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
