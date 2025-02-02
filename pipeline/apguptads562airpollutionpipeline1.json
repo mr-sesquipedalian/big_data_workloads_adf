@@ -1,0 +1,58 @@
+{
+	"name": "apguptads562airpollutionpipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "apguptads562airpollutionCopydata1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "apguptads562airpollutionRestResource1",
+						"type": "DatasetReference",
+						"parameters": {
+							"lat": 42.36,
+							"lon": -71.0589,
+							"appid": "31f0db86ba5a3b47ead3761561013e49",
+							"start": 1706767347,
+							"end": 1738458147
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "apguptads562airpollutionJson1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
