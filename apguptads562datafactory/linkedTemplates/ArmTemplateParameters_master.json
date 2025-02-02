@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "apguptads562datafactory"
+		},
+		"GitHub Apgupta_credential": {
+			"value": ""
+		},
+		"apguptads562airpollutionAzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"GitHub Apgupta_properties_typeProperties_username": {
+			"value": "mr-sesquipedalian"
+		},
+		"apguptads562airpollutionRestService_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/"
+		},
+		"apguptads562airpollutionRestService1_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
