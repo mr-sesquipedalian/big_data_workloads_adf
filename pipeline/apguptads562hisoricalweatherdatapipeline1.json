@@ -57,11 +57,11 @@
 										"lon": -71.0589,
 										"appid": "31f0db86ba5a3b47ead3761561013e49",
 										"start": {
-											"value": "div(ticks(addDays(toTimestamp(div(sub(utcNow(), 31556926), 1000)), mul(item(), 7))), 10000000)",
+											"value": "@{add(sub(1738458147,31556926),mul(mul(0,item()),86400))}",
 											"type": "Expression"
 										},
 										"end": {
-											"value": "div(ticks(addDays(toTimestamp(div(sub(utcNow(), 31556926), 1000)), add(mul(item(), 7), 6))), 10000000)\n",
+											"value": "@{add(sub(1738458147,31556926),mul(mul(0,add(item(),1)),86400))}\n",
 											"type": "Expression"
 										}
 									}
