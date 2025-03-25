@@ -9,7 +9,8 @@
 						"referenceName": "apguptads562airpollutionAzureBlobsinkJson1",
 						"type": "DatasetReference"
 					},
-					"name": "apguptaairpollutionsource1"
+					"name": "apguptaairpollutionsource1",
+					"description": "Import data from"
 				}
 			],
 			"sinks": [],
@@ -19,11 +20,11 @@
 				"          coord as (lon as double, lat as double),",
 				"          list as (main as (aqi as integer), components as (co as double, no as double, no2 as double, o3 as double, so2 as double, pm2_5 as double, pm10 as double, nh3 as double), dt as integer)[]",
 				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'singleDocument',",
-				"     wildcardPaths:['562hw/Bronze/AirPollution/ data_3d1b5f57-bdf3-4451-be1a-e98c3583823d_79b07179-8139-419c-a03e-47f8be9c5c08.json']) ~> apguptaairpollutionsource1"
+				"     wildcardPaths:['**/*.json']) ~> apguptaairpollutionsource1"
 			]
 		}
 	}
