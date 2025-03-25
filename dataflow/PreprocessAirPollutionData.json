@@ -17,6 +17,9 @@
 			"transformations": [
 				{
 					"name": "airpollutionflatten1"
+				},
+				{
+					"name": "airpollutionderivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -67,7 +70,8 @@
 				"          so2 = list.components.so2",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> airpollutionflatten1"
+				"     skipDuplicateMapOutputs: false) ~> airpollutionflatten1",
+				"airpollutionflatten1 derive(corrected_timestamp = ERROR_FUNCTION('@iif(isNull(timestamp), null, iif(length(string(toInteger(timestamp))) == 10, timestamp, null))')) ~> airpollutionderivedColumn1"
 			]
 		}
 	}
