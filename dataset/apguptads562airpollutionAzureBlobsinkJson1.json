@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "apguptads562airpollutioncontainerblob1"
+				"folderPath": "Bronze/AirPollution",
+				"container": "562hw"
 			}
 		},
 		"schema": {}
