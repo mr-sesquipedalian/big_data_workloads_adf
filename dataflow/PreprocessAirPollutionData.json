@@ -15,8 +15,8 @@
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: false,",
-				"     validateSchema: true,",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
 				"     wildcardPaths:['562hw/Bronze/AirPollution/*.json']) ~> apguptaairpollutionsource1"
