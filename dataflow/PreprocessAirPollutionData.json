@@ -23,7 +23,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
-				"     wildcardPaths:['apguptads562airpollutioncontainerblob1/*.json']) ~> apguptaairpollutionsource1"
+				"     wildcardPaths:['*.json']) ~> apguptaairpollutionsource1"
 			]
 		}
 	}
