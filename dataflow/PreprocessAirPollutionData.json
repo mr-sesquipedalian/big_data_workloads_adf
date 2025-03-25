@@ -19,7 +19,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
-				"     wildcardPaths:['562hw/Bronze/AirPollution/*.json']) ~> apguptaairpollutionsource1"
+				"     wildcardPaths:['apguptads562airpollutioncontainerblob1/ data_3d1b5f57-bdf3-4451-be1a-e98c3583823d_79b07179-8139-419c-a03e-47f8be9c5c08.json']) ~> apguptaairpollutionsource1"
 			]
 		}
 	}
