@@ -1,0 +1,59 @@
+{
+	"name": "WeatherDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "apguptads562weatherpredictionsinkJson1",
+						"type": "DatasetReference"
+					},
+					"name": "WeatherDataSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "weatherpredictionflatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          calctime as double,",
+				"          city_id as boolean,",
+				"          cnt as short,",
+				"          cod as short,",
+				"          list as (clouds as (all as short), dt as integer, main as (feels_like as double, humidity as short, pressure as short, temp as double, temp_max as double, temp_min as double), rain as ({1h} as double), snow as ({1h} as double), weather as (description as string, icon as string, id as short, main as string)[], wind as (deg as short, gust as double, speed as double))[],",
+				"          message as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> WeatherDataSource",
+				"WeatherDataSource foldDown(unrollMultiple(list,list.weather,),",
+				"     mapColumn(",
+				"          calctime,",
+				"          city_id,",
+				"          cnt,",
+				"          cod,",
+				"          message,",
+				"          clouds_all = list.clouds.all,",
+				"          timestamp = list.dt,",
+				"          feels_like = list.main.feels_like,",
+				"          humidity = list.main.humidity,",
+				"          pressure = list.main.pressure,",
+				"          temp = list.main.temp,",
+				"          temp_max = list.main.temp_max,",
+				"          temp_min = list.main.temp_min,",
+				"          rain_1h = list.rain.{1h},",
+				"          snow_1h = list.snow.{1h},",
+				"          weather_description = list.weather.description,",
+				"          weather_icon = list.weather.icon",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> weatherpredictionflatten1"
+			]
+		}
+	}
+}
