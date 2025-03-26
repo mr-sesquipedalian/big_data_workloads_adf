@@ -15,7 +15,13 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "flatten1"
+					"name": "airpollutionflatten"
+				},
+				{
+					"name": "fixiingtimestampairpollution"
+				},
+				{
+					"name": "airpollutionfilter"
 				}
 			],
 			"scriptLines": [
@@ -27,13 +33,26 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> AirPollutionSource1",
-				"AirPollutionSource1 foldDown(unroll(),",
+				"AirPollutionSource1 foldDown(unroll(list, list),",
 				"     mapColumn(",
-				"          coord,",
-				"          list",
+				"          lat = coord.lat,",
+				"          lon = coord.lon,",
+				"          co = list.components.co,",
+				"          nh3 = list.components.nh3,",
+				"          no = list.components.no,",
+				"          no2 = list.components.no2,",
+				"          o3 = list.components.o3,",
+				"          pm10 = list.components.pm10,",
+				"          pm2_5 = list.components.pm2_5,",
+				"          so2 = list.components.so2,",
+				"          timestamp = list.dt,",
+				"          aqi = list.main.aqi",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1"
+				"     skipDuplicateMapOutputs: false) ~> airpollutionflatten",
+				"airpollutionflatten derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = \"Boston\") ~> fixiingtimestampairpollution",
+				"fixiingtimestampairpollution filter(isNull(aqi) && isNull(timestamp)) ~> airpollutionfilter"
 			]
 		}
 	}
