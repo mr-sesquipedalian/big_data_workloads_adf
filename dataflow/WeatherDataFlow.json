@@ -49,7 +49,9 @@
 				"          rain_1h = list.rain.{1h},",
 				"          snow_1h = list.snow.{1h},",
 				"          weather_description = list.weather.description,",
-				"          weather_icon = list.weather.icon",
+				"          weather_icon = list.weather.icon,",
+				"          weather_id = list.weather.id,",
+				"          weather_main = list.weather.main",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> weatherpredictionflatten1"
