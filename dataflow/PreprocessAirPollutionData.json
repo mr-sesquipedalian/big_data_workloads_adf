@@ -10,7 +10,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "apguptaairpollutionsource1",
-					"description": "Import data from"
+					"description": "Import data from apguptaairpollutionsource1"
 				}
 			],
 			"sinks": [],
@@ -24,12 +24,8 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          calctime as double,",
-				"          city_id as boolean,",
-				"          cnt as short,",
-				"          cod as short,",
-				"          list as (clouds as (all as short), dt as integer, main as (feels_like as double, humidity as short, pressure as short, temp as double, temp_max as double, temp_min as double), rain as ({1h} as double), weather as (description as string, icon as string, id as short, main as string)[], wind as (deg as short, gust as double, speed as double))[],",
-				"          message as string",
+				"          coord as (lon as double, lat as double),",
+				"          list as (main as (aqi as integer), components as (co as double, no as double, no2 as double, o3 as double, so2 as double, pm2_5 as double, pm10 as double, nh3 as double), dt as integer)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
