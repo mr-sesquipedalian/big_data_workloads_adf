@@ -22,6 +22,9 @@
 				},
 				{
 					"name": "airpollutionfilter"
+				},
+				{
+					"name": "additionalcolumns"
 				}
 			],
 			"scriptLines": [
@@ -52,7 +55,18 @@
 				"     skipDuplicateMapOutputs: false) ~> airpollutionflatten",
 				"airpollutionflatten derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
 				"          location = \"Boston\") ~> fixiingtimestampairpollution",
-				"fixiingtimestampairpollution filter(isNull(aqi) && isNull(timestamp)) ~> airpollutionfilter"
+				"fixiingtimestampairpollution filter(!isNull(corrected_timestamp) && !isNull(aqi)) ~> airpollutionfilter",
+				"airpollutionfilter derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
+				"          id = concat(location,toString(timestamp)),",
+				"          co = round(co, 2)",
+				",",
+				"          nh3 = round(nh3, 2),",
+				"          no = round(no, 2),",
+				"          no2 = round(no2, 2),",
+				"          o3 = round(o3, 2),",
+				"          pm10 = round(pm10, 2),",
+				"          pm2_5 = round(pm2_5, 2),",
+				"          so2 = round(so2, 2)) ~> additionalcolumns"
 			]
 		}
 	}
