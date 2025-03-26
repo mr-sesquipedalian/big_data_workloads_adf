@@ -2,7 +2,9 @@
 	"name": "apguptads562airpollutionAzureBlobStorage1",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
-		"annotations": [],
+		"annotations": [
+			"Path for the Air pollution data"
+		],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
 			"connectionString": "DefaultEndpointsProtocol=https;AccountName=apguptads562blob1;EndpointSuffix=core.windows.net;",
