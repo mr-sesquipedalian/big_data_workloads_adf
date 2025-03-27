@@ -12,10 +12,30 @@
 					"name": "WeatherDataSource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "apguptads562weatherpredictionAzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "weathersilversink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "weatherpredictionflatten1"
+				},
+				{
+					"name": "fixingtimestampweather"
+				},
+				{
+					"name": "weatherdatafilter"
+				},
+				{
+					"name": "addingnewcolumnsweather"
+				},
+				{
+					"name": "weatherdataselection"
 				}
 			],
 			"scriptLines": [
@@ -57,7 +77,63 @@
 				"          wind_speed = list.wind.speed",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> weatherpredictionflatten1"
+				"     skipDuplicateMapOutputs: false) ~> weatherpredictionflatten1",
+				"weatherpredictionflatten1 derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = \"Boston\") ~> fixingtimestampweather",
+				"fixingtimestampweather filter(!isNull(corrected_timestamp) ) ~> weatherdatafilter",
+				"weatherdatafilter derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
+				"          id = concat(location,toString(timestamp)),",
+				"          temp_C = round(temp-273.15,2),",
+				"          feels_like_C = round(feels_like-273.15,2),",
+				"          temp_min_C = round(temp_min-273.15,2),",
+				"          temp_max_C = round(temp_max-273.15,2),",
+				"          feels_like_F = round((((feels_like - 273.15) * 9/5) + 32),2),",
+				"          temp_min_F = round((((temp_min - 273.15) * 9/5) + 32),2),",
+				"          temp_max_F = round((((temp_max - 273.15) * 9/5) + 32),2),",
+				"          lat = 42.3601,",
+				"          lon = -71.0589,",
+				"          weather_id_value = toInteger(weather_id),",
+				"          rain_1h = iif(isNull(rain_1h), toFloat(0.0), toFloat(rain_1h))) ~> addingnewcolumnsweather",
+				"addingnewcolumnsweather select(mapColumn(",
+				"          id,",
+				"          clouds_all,",
+				"          humidity,",
+				"          pressure,",
+				"          feels_like_k = feels_like,",
+				"          temp_k = temp,",
+				"          temp_max_k = temp_max,",
+				"          temp_min_k = temp_min,",
+				"          rain_1h,",
+				"          snow_1h,",
+				"          weather_description,",
+				"          weather_icon,",
+				"          weather_id,",
+				"          wind_deg,",
+				"          wind_gust,",
+				"          wind_speed,",
+				"          corrected_timestamp,",
+				"          location,",
+				"          date_time,",
+				"          temp_C,",
+				"          feels_like_C,",
+				"          temp_min_C,",
+				"          temp_max_C,",
+				"          feels_like_F,",
+				"          temp_min_F,",
+				"          temp_max_F,",
+				"          lat,",
+				"          lon,",
+				"          weather_id_value",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> weatherdataselection",
+				"weatherdataselection sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     container: '562hw',",
+				"     folderPath: 'Silver/WeatherPrediction',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> weathersilversink"
 			]
 		}
 	}
