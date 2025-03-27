@@ -26,7 +26,7 @@
 					"name": "airpollutionflatten"
 				},
 				{
-					"name": "fixiingtimestampairpollution"
+					"name": "fixingtimestampairpollution"
 				},
 				{
 					"name": "airpollutionfilter"
@@ -65,8 +65,8 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> airpollutionflatten",
 				"airpollutionflatten derive(corrected_timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
-				"          location = \"Boston\") ~> fixiingtimestampairpollution",
-				"fixiingtimestampairpollution filter(!isNull(corrected_timestamp) && !isNull(aqi)) ~> airpollutionfilter",
+				"          location = \"Boston\") ~> fixingtimestampairpollution",
+				"fixingtimestampairpollution filter(!isNull(corrected_timestamp) && !isNull(aqi)) ~> airpollutionfilter",
 				"airpollutionfilter derive(date_time = toTimestamp(toLong(corrected_timestamp) * 1000),",
 				"          id = concat(location,toString(timestamp)),",
 				"          co = round(co, 2)",
